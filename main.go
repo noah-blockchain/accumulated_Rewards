@@ -3,13 +3,12 @@ package main
 import (
 	`fmt`
 	`math/big`
-	`os`
 	
 	"golang-book/rewards/core"
 	"golang-book/rewards/types"
 )
 
-const lastBlock = 44150000 // 7 лет
+const lastBlock = 6220800 // 44184960 // 7 лет
 // 2000 =
 // 100 =
 
@@ -37,19 +36,15 @@ func GetRewardForBlock(blockHeight uint64, firstReward uint64, lastReward uint64
 }
 
 func main() {
-	var finishBlock, firstReward, lastReward uint64
-	
-	fmt.Println("duration of emission")
-	fmt.Fscan(os.Stdin, &finishBlock)
-	fmt.Println("first reward")
-	fmt.Fscan(os.Stdin, &firstReward)
-	fmt.Println("last reward")
-	fmt.Fscan(os.Stdin, &lastReward)
+
+	finishBlock := lastBlock - 1
+	firstReward := 8000
+	lastReward := 1000
 	
 	accumulatedRewards := big.NewInt(int64(firstReward))
 	
 	for i := 0; i < int(finishBlock); i++ {
-		blockReward := GetRewardForBlock(uint64(i), firstReward, lastReward)
+		blockReward := GetRewardForBlock(uint64(i), uint64(firstReward), uint64(lastReward))
 		accumulatedRewards.Add(accumulatedRewards, blockReward)
 	}
 	fmt.Println(accumulatedRewards)
